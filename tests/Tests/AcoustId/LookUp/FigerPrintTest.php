@@ -31,7 +31,6 @@ class FingerPrintTest extends AcoustIdTestCase
 
     /**
      * @dataProvider dataProvider
-     * @covers       AcoustId\LookUp\FingerPrint::setDuration
      *
      * @param int $duration
      */
@@ -41,9 +40,6 @@ class FingerPrintTest extends AcoustIdTestCase
         $this->assertEquals((int) $duration, $this->lookUp->getDuration());
     }
 
-    /**
-     * @covers AcoustId\LookUp\FingerPrint::getDuration
-     */
     public function testGetDuration()
     {
         $this->assertEquals($this->duration, $this->lookUp->getDuration());
@@ -51,7 +47,6 @@ class FingerPrintTest extends AcoustIdTestCase
 
     /**
      * @dataProvider dataProvider
-     * @covers       AcoustId\LookUp\FingerPrint::setFingerPrint
      *
      * @param string $fingerPrint
      */
@@ -61,16 +56,12 @@ class FingerPrintTest extends AcoustIdTestCase
         $this->assertEquals((string) $fingerPrint, $this->lookUp->getFingerPrint());
     }
 
-    /**
-     * @covers AcoustId\LookUp\FingerPrint::getFingerPrint
-     */
     public function testGetFingerPrint()
     {
         $this->assertEquals($this->fingerPrint, $this->lookUp->getFingerPrint());
     }
 
     /**
-     * @covers AcoustId\LookUp\FingerPrint::checkRequiredParameters
      * @throws Exception
      */
     public function testCheckRequiredParameters()

@@ -24,18 +24,12 @@ class LookUpTest extends AcoustIdTestCase
         $this->abstractLookUp->setClientId(API_CLIENT_TOKEN);
     }
 
-    /**
-     * @covers AcoustId\LookUp::setJsonCallBack
-     */
     public function testSetJsonCallBack()
     {
         $this->assertInstanceOf(LookUp::class, $this->abstractLookUp->setJsonCallBack('jsonAcoustidApi'));
         $this->assertEquals('jsonAcoustidApi', $this->abstractLookUp->getJsonCallBack());
     }
 
-    /**
-     * @covers AcoustId\LookUp::setClientId
-     */
     public function testSetClientId()
     {
         $this->assertInstanceOf(LookUp::class, $this->abstractLookUp->setClientId('clientId'));
@@ -44,7 +38,6 @@ class LookUpTest extends AcoustIdTestCase
 
     /**
      * @throws Exception
-     * @covers AcoustId\LookUp::setFormat
      */
     public function testSetFormat()
     {
@@ -61,7 +54,6 @@ class LookUpTest extends AcoustIdTestCase
 
     /**
      * @throws Exception
-     * @covers AcoustId\LookUp::setMeta
      */
     public function testSetMeta()
     {
@@ -73,9 +65,6 @@ class LookUpTest extends AcoustIdTestCase
         $this->assertEquals(['recordings'], $this->abstractLookUp->getMeta());
     }
 
-    /**
-     * @covers AcoustId\LookUp::setUrl
-     */
     public function testSetUrl()
     {
         $this->assertInstanceOf(LookUp::class, $this->abstractLookUp->setUrl('http://some.domain'));
@@ -83,7 +72,6 @@ class LookUpTest extends AcoustIdTestCase
     }
 
     /**
-     * @covers AcoustId\Traits\CheckRequiredParameters::checkRequiredParameters
      * @throws Exception
      */
     public function testCheckRequiredParameters()

@@ -21,17 +21,11 @@ class SubmissionTest extends AcoustIdTestCase
      */
     protected $submission;
 
-    /**
-     *
-     */
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
     }
 
-    /**
-     *
-     */
     public function setUp()
     {
         parent::setUp();
@@ -40,18 +34,12 @@ class SubmissionTest extends AcoustIdTestCase
         $this->submissionRequest = new Submission($this->submission);
     }
 
-    /**
-     *
-     */
     public function testInstanceTypes()
     {
         $this->assertInstanceOf(\AcoustId\Submission::class, $this->submission);
         $this->assertInstanceOf(Submission::class, $this->submissionRequest);
     }
 
-    /**
-     * @covers AcoustId\Request\Submission::createRequest
-     */
     public function testCreateRequest()
     {
         $this->submissionRequest->createRequest();

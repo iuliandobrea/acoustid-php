@@ -46,9 +46,6 @@ class RequestTest extends AcoustIdTestCase
         $this->tlookUp = new TrackId($this->trackId);
     }
 
-    /**
-     * @covers AcoustId\Request::createRequest
-     */
     public function testCreateRequestFingerPrint()
     {
         $this->request = new Request\LookUp($this->flookUp);
@@ -63,9 +60,6 @@ class RequestTest extends AcoustIdTestCase
         }
     }
 
-    /**
-     * @covers AcoustId\Request::createRequest
-     */
     public function testCreateRequestTrackId()
     {
         $this->request = new Request\LookUp($this->tlookUp);
@@ -76,10 +70,6 @@ class RequestTest extends AcoustIdTestCase
         $this->assertEquals($this->tlookUp->getTrackId(), $params['trackid']);
     }
 
-    /**
-     * @covers AcoustId\Request::setUrl
-     * @covers AcoustId\Request::getUrl
-     */
     public function testUrl()
     {
         $this->request = new Request\LookUp($this->flookUp);

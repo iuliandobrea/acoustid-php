@@ -33,7 +33,6 @@ class TrackIdTest extends AcoustIdTestCase
 
     /**
      * @dataProvider dataProvider
-     * @covers       AcoustId\LookUp\TrackId::setTrackId
      *
      * @param int $duration
      */
@@ -43,16 +42,12 @@ class TrackIdTest extends AcoustIdTestCase
         $this->assertEquals((string) $duration, $this->lookUp->getTrackId());
     }
 
-    /**
-     * @covers AcoustId\LookUp\TrackId::getTrackId
-     */
     public function testGetTrackId()
     {
         $this->assertEquals($this->trackId, $this->lookUp->getTrackId());
     }
 
     /**
-     * @covers AcoustId\LookUp\TrackId::checkRequiredParameters
      * @throws Exception
      */
     public function testCheckRequiredParameters()

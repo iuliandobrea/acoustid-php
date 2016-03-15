@@ -40,9 +40,6 @@ class StatusTest extends AcoustIdTestCase
         $this->submissionStatusRequest = new Status($this->submissionStatus);
     }
 
-    /**
-     * @covers AcoustId\Request\Submission\Status::createRequest
-     */
     public function testCreateRequest()
     {
         $this->submissionStatusRequest->createRequest();

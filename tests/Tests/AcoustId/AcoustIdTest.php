@@ -30,7 +30,6 @@ class AcoustIdTest extends AcoustIdTestCase
 
     /**
      * @dataProvider providerTestSubmission
-     * @covers       AcoustId\AcoustId::submission
      *
      * @param \AcoustId\Submission $submission
      */
@@ -53,7 +52,6 @@ class AcoustIdTest extends AcoustIdTestCase
 
     /**
      * @dataProvider providerTestSubmissionStatus
-     * @covers       AcoustId\AcoustId::submissionStatus
      *
      * @param Status $submissionStatus
      */
@@ -76,7 +74,6 @@ class AcoustIdTest extends AcoustIdTestCase
 
     /**
      * @dataProvider providerTestLookUpFingerPrint
-     * @covers       AcoustId\AcoustId::lookUp
      *
      * @param FingerPrint $lookUp
      */
@@ -99,7 +96,6 @@ class AcoustIdTest extends AcoustIdTestCase
 
     /**
      * @dataProvider providerTestLookUpTrackId
-     * @covers       AcoustId\AcoustId::lookUp
      *
      * @param TrackId $lookUp
      */

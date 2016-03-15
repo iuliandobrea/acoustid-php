@@ -55,9 +55,6 @@ class LookUpTest extends AcoustIdTestCase
         $this->requestTrackId = new LookUp($this->trackIdLookUp);
     }
 
-    /**
-     * @covers AcoustId\Request\LookUp::createRequest
-     */
     public function testCreateFingerPrintRequest()
     {
         $this->requestFingerPrint->createRequest();
@@ -79,9 +76,6 @@ class LookUpTest extends AcoustIdTestCase
         $this->assertEquals($this->fingerPrintLookUp->getFingerPrint(), $params['fingerprint']);
     }
 
-    /**
-     * @covers AcoustId\Request\LookUp::createRequest
-     */
     public function testCreateTrackIdRequest()
     {
         $this->requestTrackId->createRequest();
