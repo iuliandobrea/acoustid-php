@@ -5,30 +5,32 @@
 
 This project is a PHP wrapper around [Acoustid.org](https://acoustid.org/webservice) Web Services API.
 
-## Installation
+### Installation
 
 TODO: Describe the installation process
 
-## Usage
+### Usage
 
 To use this library you should first decide what kind of lookup you want. 
 
 At this moment library supports two types of lookups:
-[Lookup by TrackId](/#lookup-f)
-[Lookup by FingerPrint](/#lookup-t)
+* Lookup by TrackId
+* Lookup by FingerPrint
 
-Also library supports submission of fingerprints and getting the submission statuses.
+Also library supports: 
+* Submission of fingerprints 
+* Getting the submission status
 
 **How to make a fingerprint lookup:**
 
-First you have to bootstrap the application via:
+First you have to bootstrap the application:
 
 ```php
 require_once __DIR__ . '/../src/bootstrap.php';
 \AcoustId\Exception::setExceptionHandler();
 ```
 
-**FingerPrint lookup** can be created as:
+**FingerPrint lookup** can be created as: <a id="chapter-1"></a>
 
 ```php
 $lookUp = new \AcoustId\LookUp\FingerPrint($d, $f);
@@ -55,7 +57,7 @@ $response = $client->lookUp(
 echo $response->getBody()->getContents();
 ```
 
-**TrackId lookup** is also available
+**TrackId lookup** is also available as:
 
 ```php
 $lookUp = new \AcoustId\LookUp\TrackId($t);
@@ -81,11 +83,15 @@ Both lookups support [JSONP](https://ru.wikipedia.org/wiki/JSONP) callbacks
 
 TODO: add usage examples for submit  and submit-status requests. 
 
-Now you can see examples at **/examples** folder
+For more details see examples at **/examples** folder
 
-Info about web service could be found [here](https://acoustid.org/webservice)
+Info about AcoustId.org web service could be found [here](https://acoustid.org/webservice)
 
-## Contributing
+### Note
+
+Library doesn't support **batch-submissions** and **listing of AcoustIDs by MBID**. I'll try to add it in future releases.
+
+### Contributing
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -93,7 +99,7 @@ Info about web service could be found [here](https://acoustid.org/webservice)
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-## License
+### License
 
 **The MIT License (MIT)**
 
