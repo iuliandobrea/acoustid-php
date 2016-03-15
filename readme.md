@@ -7,7 +7,55 @@ This project is a PHP wrapper around [Acoustid.org](https://acoustid.org/webserv
 
 ### Installation
 
-TODO: Describe the installation process
+Yout can clone this repository.
+```
+git clone https://github.com/psilocyberunner/acoustid-php.git
+```
+
+But the easiest way is to require the [package](https://packagist.org/packages/c0dex/acoustid) from [Composer](getcomposer.org) repository:
+
+```
+composer require c0dex/acoustid
+```
+
+After that the initialization of library is done as:
+
+```php
+use AcoustId\AcoustId;
+use AcoustId\LookUp\FingerPrint;
+
+require 'vendor/autoload.php';
+
+# Init the credentials
+$acoustId = new AcoustId('YOUR_ACOUSTID_ORG_TOKEN');
+
+# Create lookup
+$lookUp = new FingerPrint($d, $f);
+
+$ Create the request and get response
+$response = $acoustId->lookUp($lookUp);
+
+# View the results
+echo $response->getBody()->getContents();
+```
+
+Example output is:
+
+```json
+{
+  status: "ok",
+  results: [
+    {
+      score: 0.950422,
+      id: "c97a7693-af5d-4d73-8334-e4588aec169a"
+    },
+    {
+      score: 0.720728,
+      id: "c8f5bfc0-3d4e-416d-857d-42d5d1c1e466"
+    }
+  ]
+}
+```
 
 ### Usage
 
