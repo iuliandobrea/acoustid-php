@@ -11,11 +11,79 @@ TODO: Describe the installation process
 
 ## Usage
 
-To use this library you should first decide what kind of lookup you want. At this moment library supports:
-**1.** Lookup by TrackId
-**2.** Lookup by FingerPrint
+To use this library you should first decide what kind of lookup you want. 
 
-TODO: add usage examples. Not you can see examples at /examples folder
+At this moment library supports two types of lookups:
+[Lookup by TrackId](/#lookup-f)
+[Lookup by FingerPrint](/#lookup-t)
+
+Also library supports submission of fingerprints and getting the submission statuses.
+
+**How to make a fingerprint lookup:**
+
+First you have to bootstrap the application via:
+
+```php
+require_once __DIR__ . '/../src/bootstrap.php';
+\AcoustId\Exception::setExceptionHandler();
+```
+
+**FingerPrint lookup** can be created as:
+
+```php
+$lookUp = new \AcoustId\LookUp\FingerPrint($d, $f);
+
+# Response format, ['json', 'jsonp', 'xml'], default if 'json'
+$lookUp->setFormat('json');
+
+# Available meta data to get from service (you can combine theese ones to achieve necessary output)
+$lookUp->setMeta([
+  'recordings', 'recordingids', 'releases', 
+  'releaseids', 'releasegroups', 'releasegroupids', 
+  'tracks', 'compress', 'usermeta', 'sources'
+]);
+
+# You can set the callback functions
+$lookUp->setJsonCallBack('test');
+
+# Set basic data
+$lookUp->setMeta(['recordings']);
+
+$response = $client->lookUp(
+    $lookUp
+);
+echo $response->getBody()->getContents();
+```
+
+**TrackId lookup** is also available
+
+```php
+$lookUp = new \AcoustId\LookUp\TrackId($t);
+
+# Optional response type and callback, you can wrap the response with JSONP callback
+$lookUp->setFormat('jsonp')->setJsonCallBack('testCallback');
+
+# Set requested meta
+$lookUp->setMeta([
+  'recordings', 'recordingids', 'releases', 
+  'releaseids', 'releasegroups', 'releasegroupids', 
+  'tracks', 'compress', 'usermeta', 'sources'
+]);
+
+$response = $client->lookUp(
+    $lookUp
+);
+
+echo $response->getBody()->getContents();
+```
+
+Both lookups support [JSONP](https://ru.wikipedia.org/wiki/JSONP) callbacks
+
+TODO: add usage examples for submit  and submit-status requests. 
+
+Now you can see examples at **/examples** folder
+
+Info about web service could be found [here](https://acoustid.org/webservice)
 
 ## Contributing
 
