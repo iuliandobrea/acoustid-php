@@ -1,4 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/psilocyberunner/acoustid/badges/gpa.svg)](https://codeclimate.com/github/psilocyberunner/acoustid)
+[![Test Coverage](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/coverage.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php/coverage)
 
 # AcoustId API
 
