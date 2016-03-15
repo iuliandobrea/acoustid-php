@@ -26,8 +26,11 @@ use AcoustId\LookUp\FingerPrint;
 
 require 'vendor/autoload.php';
 
+# Set exception handler
+\AcoustId\Exception::setExceptionHandler();
+
 # Init the credentials
-$acoustId = new AcoustId('YOUR_ACOUSTID_ORG_TOKEN');
+$acoustId = new AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
 
 # Create lookup
 $lookUp = new FingerPrint($d, $f);
@@ -66,19 +69,21 @@ At this moment library supports two types of lookups:
 * Lookup by FingerPrint
 
 Also library supports: 
-* Submission of fingerprints 
-* Getting the submission status
+* Submiting new fingerprints to AcoustId
+* Getting the status for fingerprint submission
 
-**How to make a fingerprint lookup:**
+**Basic lookups examples:**
 
-First you have to bootstrap the application:
+First you have to bootstrap the application, these lines are mandatory in all examples:
 
 ```php
-require_once __DIR__ . '/../src/bootstrap.php';
+# Requiring the bootstrap is optional if you don't need helpers.php for debugging
+require_once __DIR__ . '/path/to/bootstrap.php';
 \AcoustId\Exception::setExceptionHandler();
+$client = new \AcoustId\AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
 ```
 
-**FingerPrint lookup** can be created as: <a id="chapter-1"></a>
+**FingerPrint lookup:**
 
 ```php
 $lookUp = new \AcoustId\LookUp\FingerPrint($d, $f);
@@ -103,9 +108,12 @@ $response = $client->lookUp(
     $lookUp
 );
 echo $response->getBody()->getContents();
+
+# Example response with default meta
+# {"status": "ok", "results": [{"score": 0.950422, "id": "c97a7693-af5d-4d73-8334-e4588aec169a"}, {"score": 0.720728, "id": "c8f5bfc0-3d4e-416d-857d-42d5d1c1e466"}]}
 ```
 
-**TrackId lookup** is also available as:
+**TrackId lookup:**
 
 ```php
 $lookUp = new \AcoustId\LookUp\TrackId($t);
@@ -125,11 +133,56 @@ $response = $client->lookUp(
 );
 
 echo $response->getBody()->getContents();
+
+# Example response with default meta
+# {"status": "ok", "results": [{"score": 1.0, "id": "c97a7693-af5d-4d73-8334-e4588aec169a"}]}
+```
+
+Example response:
+
+```json
+{
+  "status":"ok",
+  "results":[
+    {
+      "score":1.0,
+      "id":"c97a7693-af5d-4d73-8334-e4588aec169a"
+    }
+  ]
+}
 ```
 
 Both lookups support [JSONP](https://ru.wikipedia.org/wiki/JSONP) callbacks
 
-TODO: add usage examples for submit  and submit-status requests. 
+**Submit new data to AcoustId:**
+
+```php
+# UserId can be found at https://acoustid.org/api-key after sign up
+$submission = new \AcoustId\Submission('ACOUSTID_USER_TOKEN', $duration, $fingerPrint);
+$response   = $client->submission(
+    $submission
+);
+echo $response->getBody()->getContents();
+
+# Example response with default meta
+# {"status": "ok", "submissions": [{"status": "pending", "id": 155971755}]}
+```
+
+**Get the submission status:**
+
+```php
+# Here we need the submission id from previous request: 155971755
+$status = new \AcoustId\Submission\Status(155971755);
+
+# Read the submission state
+$response = $client->submissionStatus($status);
+echo $response->getBody()->getContents();
+
+# Example response with default meta
+# {"status": "ok", "submissions": [{"status": "imported", "id": 155971755, "result": {"id": "c97a7693-af5d-4d73-8334-e4588aec169a"}}]}
+```
+
+---
 
 For more details see examples at **/examples** folder
 
