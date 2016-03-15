@@ -33,7 +33,7 @@ require 'vendor/autoload.php';
 $acoustId = new AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
 
 # Create lookup
-$lookUp = new FingerPrint($d, $f);
+$lookUp = new FingerPrint($duration, $fingerPrint);
 
 $ Create the request and get response
 $response = $acoustId->lookUp($lookUp);
@@ -86,7 +86,7 @@ $client = new \AcoustId\AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
 **FingerPrint lookup:**
 
 ```php
-$lookUp = new \AcoustId\LookUp\FingerPrint($d, $f);
+$lookUp = new \AcoustId\LookUp\FingerPrint($duration, $fingerPrint);
 
 # Response format, ['json', 'jsonp', 'xml'], default if 'json'
 $lookUp->setFormat('json');
@@ -116,7 +116,7 @@ echo $response->getBody()->getContents();
 **TrackId lookup:**
 
 ```php
-$lookUp = new \AcoustId\LookUp\TrackId($t);
+$lookUp = new \AcoustId\LookUp\TrackId($trackId);
 
 # Optional response type and callback, you can wrap the response with JSONP callback
 $lookUp->setFormat('jsonp')->setJsonCallBack('testCallback');
@@ -171,8 +171,8 @@ echo $response->getBody()->getContents();
 **Get the submission status:**
 
 ```php
-# Here we need the submission id from previous request: 155971755
-$status = new \AcoustId\Submission\Status(155971755);
+# Here we need the submission id from previous request: $submissionId = 155971755
+$status = new \AcoustId\Submission\Status($submissionId);
 
 # Read the submission state
 $response = $client->submissionStatus($status);
@@ -190,7 +190,8 @@ Info about AcoustId.org web service could be found [here](https://acoustid.org/w
 
 ### Note
 
-Library doesn't support **batch-submissions** and **listing of AcoustIDs by MBID**. I'll try to add it in future releases.
+Library doesn't support **batch-submissions** and **listing of AcoustIDs by MBID**. 
+I'll try to add it in future releases.
 
 ### Contributing
 
