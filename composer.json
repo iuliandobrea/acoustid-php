@@ -1,0 +1,43 @@
+{
+  "name": "c0dex/acoustid",
+  "description": "acoustid.org API wrapper",
+  "type": "library",
+  "keywords": [
+    "acoustid",
+    "library",
+    "php",
+    "api"
+  ],
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Petrov",
+      "email": "petrovgm@gmail.com",
+      "homepage": "http://oweb.ru",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "dev-master",
+    "squizlabs/php_codesniffer": "dev-master",
+    "sebastian/phpdcd": "dev-master",
+    "monolog/monolog": "dev-master",
+    "symfony/var-dumper": "dev-master",
+    "codeclimate/php-test-reporter": "dev-master"
+  },
+  "autoload": {
+    "classmap": [
+      "src",
+      "tests/Tests"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "component-dir": "public/packages",
+    "vendor-dir": "vendor"
+  }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        forceCoversAnnotation="true"
+        mapTestClassNameToCoveredClassName="true"
+        bootstrap="bootstrap.php"
+        colors="true"
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        syntaxCheck="false"
+        stopOnError="false"
+>
+
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+
+    <testsuites>
+        <testsuite name="All tests">
+            <directory suffix=".php">Tests/AcoustId</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Tests/</directory>
+        </whitelist>
+    </filter>
+
+</phpunit>
