@@ -35,7 +35,7 @@ $acoustId = new AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
 # Create lookup
 $lookUp = new FingerPrint($duration, $fingerPrint);
 
-$ Create the request and get response
+# Create the request and get response
 $response = $acoustId->lookUp($lookUp);
 
 # View the results
