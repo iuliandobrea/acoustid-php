@@ -12,7 +12,7 @@ Yout can clone this repository.
 git clone https://github.com/psilocyberunner/acoustid-php.git
 ```
 
-But the easiest way is to require the [package](https://packagist.org/packages/c0dex/acoustid) from [Composer](getcomposer.org) repository:
+But the easiest way is to require the [package](https://packagist.org/packages/c0dex/acoustid) from [Composer](https://getcomposer.org/) repository:
 
 ```
 composer require c0dex/acoustid
