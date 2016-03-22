@@ -23,6 +23,7 @@ class Batch extends Submission
 
     public function __construct($userId, $duration, $fingerPrint)
     {
+        # Use get_class($this) to drive the way of setting the vars
         parent::__construct($userId, $duration, $fingerPrint);
     }
 
