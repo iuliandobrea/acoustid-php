@@ -30,7 +30,7 @@ abstract class Request
     /**
      * Request constructor.
      *
-     * @param FingerPrint|TrackId|Submission|Status $instance
+     * @param FingerPrint|TrackId|Submission|Status|ListByMDID $instance
      */
     public function __construct($instance)
     {
