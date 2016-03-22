@@ -13,10 +13,12 @@ trait CheckRequiredParameters
     /**
      * Validate required parameters for any type of look-ups
      *
+     * @param array $parameters
+     *
      * @return bool
      * @throws Exception
      */
-    public function checkRequiredParameters()
+    public function checkRequiredParameters($parameters = ['clientId', 'url'])
     {
         /**
          * In some cases we have a non set property
@@ -25,8 +27,9 @@ trait CheckRequiredParameters
             $this->requiredParameters = [];
         }
 
-        array_push($this->requiredParameters, 'clientId');
-        array_push($this->requiredParameters, 'url');
+        foreach ($parameters as $parameter) {
+            array_push($this->requiredParameters, $parameter);
+        }
 
         foreach ($this->requiredParameters as $parameter) {
             if (!empty($parameter) && empty($this->{$parameter})) {
