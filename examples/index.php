@@ -2,11 +2,16 @@
 <a href="index.php?type=trackid&c=">Look up by track id</a> |
 <a href="index.php?type=fingerprint&c=">Look up by fingerprint</a> |
 <a href="index.php?type=submission&c=&u=">Submit data</a> |
-<a href="index.php?type=status&c=">Get submission status</a>
+<a href="index.php?type=status&c=">Get submission status</a> |
+<a href="index.php?type=list&mbid=">List By MBID</a>
 
 <br><br>
 
 <?php
+
+# Set error reporting to ALL errors
+error_reporting(-1);
+ini_set('display_errors', 1);
 
 /**
  * Below you can find example script use cases.
@@ -26,14 +31,19 @@ $t = get('t', 'c97a7693-af5d-4d73-8334-e4588aec169a'); # track id
 
 $c = get('c'); # clientId
 //$u = get('u'); # userId - used in making submit requests
+$mbid = get('mbid');
 
 $type = get('type');
 
-if (!empty($type) && empty($c)) {
+if (!empty($type) && in_array($type, ['status', 'submission', 'fingerprint', 'trackid']) && empty($c)) {
     throw new \AcoustId\Exception('Please, provide the $clientId parameter by passing the ?c=xxx parameter, where xxx is your AcoustId client id for API requests.');
 }
 
-# Create the AcousId class instance - we'll need it in any use case
+if (!empty($type) && in_array($type, ['list']) && empty($mbid)) {
+    throw new \AcoustId\Exception('Please, provide the $mbid parameter by passing the ?mbid=xxx parameter, where xxx is MusicBrainz track id.');
+}
+
+# Create the AcousId class instance - we'll need it in any use case (except ListByMBID)
 $client = new \AcoustId\AcoustId($c);
 
 # Below comes some dirty include-require stuff, acceptable only for demo needs ;)
@@ -49,6 +59,9 @@ switch ($type) {
         break;
     case 'status':
         require_once 'status.php';
+        break;
+    case 'list':
+        require_once 'list.php';
         break;
 }
 
