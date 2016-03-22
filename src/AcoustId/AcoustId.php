@@ -2,6 +2,7 @@
 
 use AcoustId\LookUp\FingerPrint;
 use AcoustId\LookUp\TrackId;
+use AcoustId\Request\ListByMBID;
 use AcoustId\Request\LookUp as RequestLookUp;
 use AcoustId\Request\Submission\Status as RequestSubmissionStatus;
 use AcoustId\Request\Submission as RequestSubmission;
@@ -76,6 +77,40 @@ class AcoustId
         $instance->checkRequiredParameters();
 
         return (new RequestSubmissionStatus($instance))->createRequest()->send();
+    }
+
+    /**
+     * Create list request
+     *
+     * @param ListByMDID $instance
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws Exception
+     */
+    public function listByMBID($instance)
+    {
+        # Validate the type of $lookUp
+        $this->checkListByMBIDStatusType($instance);
+
+        $instance->setClientId($this->clientId);
+        # Here we don't need ClientId, but use the generic way of class definition
+        $instance->checkRequiredParameters(['url']);
+
+        return (new ListByMBID($instance))->createRequest()->send();
+    }
+
+    /**
+     * Check the $instance type
+     *
+     * @param \AcoustId\ListByMDID $instance
+     *
+     * @throws Exception
+     */
+    private function checkListByMBIDStatusType($instance)
+    {
+        if (!is_object($instance) or !in_array(get_class($instance), [ListByMDID::class])) {
+            throw new Exception(__METHOD__ . '($instance): $instance provided must be an instance of: ' . ListByMDID::class . '. ' . ucfirst(gettype($instance)) . ' given.');
+        }
     }
 
     /**
