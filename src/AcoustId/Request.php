@@ -2,6 +2,7 @@
 
 use AcoustId\LookUp\FingerPrint;
 use AcoustId\LookUp\TrackId;
+use AcoustId\Submission\Batch;
 use AcoustId\Submission\Status;
 use GuzzleHttp\Client;
 
@@ -13,7 +14,7 @@ use GuzzleHttp\Client;
 abstract class Request
 {
     /**
-     * @var FingerPrint|TrackId
+     * @var FingerPrint|TrackId|Submission|Status|ListByMDID|Batch
      */
     protected $instance;
 
@@ -30,7 +31,7 @@ abstract class Request
     /**
      * Request constructor.
      *
-     * @param FingerPrint|TrackId|Submission|Status|ListByMDID $instance
+     * @param FingerPrint|TrackId|Submission|Status|ListByMDID|Batch $instance
      */
     public function __construct($instance)
     {
