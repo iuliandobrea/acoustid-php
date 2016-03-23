@@ -19,7 +19,7 @@ But the easiest way is to require the [package](https://packagist.org/packages/c
 composer require c0dex/acoustid
 ```
 
-After that the initialization of library is done as:
+After that, the initialization of library is done as:
 
 ```php
 use AcoustId\AcoustId;
