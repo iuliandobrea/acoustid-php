@@ -1,5 +1,6 @@
 <?php namespace AcoustId;
 
+use AcoustId\Submission\Batch;
 use AcoustId\Traits\CheckRequiredParameters;
 
 /**
@@ -175,9 +176,9 @@ class Submission
     /**
      * Submission constructor.
      *
-     * @param string $userId
-     * @param int    $duration
-     * @param string $fingerPrint
+     * @param string       $userId
+     * @param int|array    $duration    - int for single request, array - for batch
+     * @param string|array $fingerPrint - string for single request, array - for batch
      */
     public function __construct($userId, $duration, $fingerPrint)
     {
@@ -264,13 +265,17 @@ class Submission
     /**
      * Set duration
      *
-     * @param  int $duration
+     * @param  int|array $duration
      *
      * @return $this
      */
     public function setDuration($duration)
     {
-        $this->duration = (int) $duration;
+        if (get_class($this) == Batch::class) {
+            $this->duration = (array) $duration;
+        } else {
+            $this->duration = (int) $duration;
+        }
 
         return $this;
     }
@@ -278,13 +283,17 @@ class Submission
     /**
      * Set fingerprint obtained from fpcalc utility
      *
-     * @param string $fingerPrint
+     * @param string|array $fingerPrint
      *
      * @return $this
      */
     public function setFingerPrint($fingerPrint)
     {
-        $this->fingerPrint = (string) $fingerPrint;
+        if (get_class($this) == Batch::class) {
+            $this->fingerPrint = (array) $fingerPrint;
+        } else {
+            $this->fingerPrint = (string) $fingerPrint;
+        }
 
         return $this;
     }
@@ -492,7 +501,7 @@ class Submission
     /**
      * Get duration
      *
-     * @return int
+     * @return int|array
      */
     public function getDuration()
     {
@@ -502,7 +511,7 @@ class Submission
     /**
      * Get fingerprint
      *
-     * @return string
+     * @return string|array
      */
     public function getFingerPrint()
     {

@@ -2,29 +2,23 @@
 
 use AcoustId\Submission;
 
+/**
+ * Class Batch
+ *
+ * @package AcoustId\Submission
+ */
 class Batch extends Submission
 {
-
     /**
-     * Duration of the whole audio file in seconds
+     * Batch constructor.
      *
-     * @required yes
-     * @var array
+     * @param string       $userId
+     * @param array|int    $duration
+     * @param array|string $fingerPrint
      */
-    protected $duration;
-
-    /**
-     * Audio fingerprint data
-     *
-     * @required yes
-     * @var array
-     */
-    protected $fingerPrint;
-
     public function __construct($userId, $duration, $fingerPrint)
     {
         # Use get_class($this) to drive the way of setting the vars
         parent::__construct($userId, $duration, $fingerPrint);
     }
-
 }

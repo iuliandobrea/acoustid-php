@@ -5,6 +5,7 @@ use AcoustId\LookUp\TrackId;
 use AcoustId\Request\ListByMBID;
 use AcoustId\Request\LookUp as RequestLookUp;
 use AcoustId\Request\Submission\Status as RequestSubmissionStatus;
+use AcoustId\Request\Submission\Batch as RequestSubmissionBatch;
 use AcoustId\Request\Submission as RequestSubmission;
 use AcoustId\Submission;
 use AcoustId\Submission\Status;
@@ -63,6 +64,23 @@ class AcoustId
     }
 
     /**
+     * @param Submission\Batch $instance
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws Exception
+     */
+    public function submissionBatch($instance)
+    {
+        # Validate the type of $lookUp
+        $this->checkSubmissionBatchType($instance);
+
+        $instance->setClientId($this->clientId);
+        $instance->checkRequiredParameters();
+
+        return (new RequestSubmissionBatch($instance))->createRequest()->send();
+    }
+
+    /**
      * @param Status $instance
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -110,6 +128,20 @@ class AcoustId
     {
         if (!is_object($instance) or !in_array(get_class($instance), [ListByMDID::class])) {
             throw new Exception(__METHOD__ . '($instance): $instance provided must be an instance of: ' . ListByMDID::class . '. ' . ucfirst(gettype($instance)) . ' given.');
+        }
+    }
+
+    /**
+     * Check the $instance type for batch submission request
+     *
+     * @param $instance
+     *
+     * @throws Exception
+     */
+    private function checkSubmissionBatchType($instance)
+    {
+        if (!is_object($instance) or !in_array(get_class($instance), [Submission\Batch::class])) {
+            throw new Exception(__METHOD__ . '($instance): $instance provided must be an instance of: ' . Submission\Batch::class . '. ' . ucfirst(gettype($instance)) . ' given.');
         }
     }
 
