@@ -1,5 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/gpa.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php)
 [![Test Coverage](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/coverage.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php/coverage)
+[![Dependency Status](https://www.versioneye.com/user/projects/56f28a9235630e0029db012b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f28a9235630e0029db012b)
 
 # AcoustId API
 
