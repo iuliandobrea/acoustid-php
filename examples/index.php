@@ -2,6 +2,7 @@
 <a href="index.php?type=trackid&c=">Look up by track id</a> |
 <a href="index.php?type=fingerprint&c=">Look up by fingerprint</a> |
 <a href="index.php?type=submission&c=&u=">Submit data</a> |
+<a href="index.php?type=submissionBatch&c=&u=">Submit batch data</a> |
 <a href="index.php?type=status&c=">Get submission status</a> |
 <a href="index.php?type=list&mbid=">List By MBID</a>
 
@@ -62,6 +63,9 @@ switch ($type) {
         break;
     case 'list':
         require_once 'list.php';
+        break;
+    case 'submissionBatch':
+        require_once 'batch.php';
         break;
 }
 
