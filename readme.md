@@ -182,6 +182,21 @@ echo $response->getBody()->getContents();
 # {"status": "ok", "submissions": [{"status": "imported", "id": 155971755, "result": {"id": "c97a7693-af5d-4d73-8334-e4588aec169a"}}]}
 ```
 
+**List tracks by MBID:**
+
+```php
+# $mbid could be an array (for batch requests) or string. 
+$list = new \AcoustId\ListByMDID($mbid);
+
+# Optionally you can use batch requests, see params above. # If $mbid is array - the batch would be set to 1 automatically
+$list->setBatch(1);
+
+# list data
+$response = $client->listByMBID($list);
+
+echo $response->getBody()->getContents();
+```
+
 ---
 
 For more details see examples at **/examples** folder
@@ -190,8 +205,7 @@ Info about AcoustId.org web service could be found [here](https://acoustid.org/w
 
 ### Note
 
-Library doesn't support **batch-submissions** and **listing of AcoustIDs by MBID**. 
-I'll try to add it in future releases.
+Library doesn't support **batch-submissions** at this time. I'll add this feature in future releases.
 
 ### Contributing
 
