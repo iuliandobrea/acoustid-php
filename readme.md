@@ -198,6 +198,24 @@ $response = $client->listByMBID($list);
 echo $response->getBody()->getContents();
 ```
 
+**Batch data submission:**
+
+```php
+
+# Pass $d - duration and $f - fingerPrint parameters as arrays, where $d[0] corresponds $f[0]
+$submission = new \AcoustId\Submission\Batch($userId, $d, $f);
+
+# Set optional wait timeout
+$submission->setWait(10);
+
+$response = $client->submissionBatch(
+    $submission
+);
+
+echo $response->getBody()->getContents();
+# {"status": "ok", "submissions": [{"status": "imported", "index": "0", "id": 156695883, "result": {"id": "c97a7693-af5d-4d73-8334-e4588aec169a"}}]}
+```
+
 ---
 
 For more details see examples at **/examples** folder
@@ -206,7 +224,7 @@ Info about AcoustId.org web service could be found [here](https://acoustid.org/w
 
 ### Note
 
-Library doesn't support **batch-submissions** at this time. I'll add this feature in future releases.
+This is *development* release. If you encounter any problems - open an issue.
 
 ### Contributing
 
