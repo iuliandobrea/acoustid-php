@@ -1,6 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/gpa.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php)
 [![Test Coverage](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/coverage.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php/coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/56f28a9235630e0029db012b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f28a9235630e0029db012b)
 
 # AcoustId API
 
@@ -8,7 +7,7 @@ This project is a PHP wrapper around [Acoustid.org](https://acoustid.org/webserv
 
 ### Installation
 
-Yout can clone this repository.
+You can clone this repository.
 ```
 git clone https://github.com/psilocyberunner/acoustid-php.git
 ```
