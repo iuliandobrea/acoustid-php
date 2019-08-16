@@ -92,4 +92,13 @@ class AcoustIdTest extends TestCase
         $this->instance->setAPIUrl('http://some.api.url');
         $this->assertEquals('http://some.api.url', $this->instance->getApiUrl());
     }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function testSetBadAPIUrl()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->instance->setAPIUrl('not-url');
+    }
 }
