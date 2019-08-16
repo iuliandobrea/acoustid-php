@@ -127,7 +127,7 @@ abstract class Request
     }
 
     /**
-     * @param LookUp|Submission $instance
+     * @param LookUp|Submission|ListByMBId $instance
      *
      * @return array
      */
