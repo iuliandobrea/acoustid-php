@@ -30,7 +30,7 @@ abstract class Request
     protected $options = [];
 
     /**
-     * @return mixed
+     * @return array
      */
     abstract protected function composeQueryParameters(): array;
 
