@@ -4,4 +4,4 @@
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/../');
 $dotenv->load();
 
-$dotenv->required(['API_APPLICATION_TOKEN', 'API_USER_TOKEN']);
+$dotenv->required(['API_APPLICATION_TOKEN', 'API_USER_TOKEN'])->notEmpty();
