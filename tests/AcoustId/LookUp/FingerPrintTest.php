@@ -16,7 +16,7 @@ use Tests\TestCase;
 class FingerPrintTest extends TestCase
 {
     /**
-     * @var FingerPrint
+     * @var FingerPrintTest
      */
     protected $instance;
 
