@@ -1,6 +1,3 @@
-[![Code Climate](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/gpa.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php)
-[![Test Coverage](https://codeclimate.com/github/psilocyberunner/acoustid-php/badges/coverage.svg)](https://codeclimate.com/github/psilocyberunner/acoustid-php/coverage)
-
 # AcoustId API
 
 This project is a PHP wrapper around [Acoustid.org](https://acoustid.org/webservice) Web Services API.
@@ -18,220 +15,328 @@ But the easiest way is to require the [package](https://packagist.org/packages/c
 composer require c0dex/acoustid
 ```
 
-After that, the initialization of library is done as:
+### Usage
 
-```php
-use AcoustId\AcoustId;
-use AcoustId\LookUp\FingerPrint;
+Library supports next features of AcoustId API:
 
-require 'vendor/autoload.php';
-
-# Set exception handler
-\AcoustId\Exception::setExceptionHandler();
-
-# Init the credentials
-$acoustId = new AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
-
-# Create lookup
-$lookUp = new FingerPrint($duration, $fingerPrint);
-
-# Create the request and get response
-$response = $acoustId->lookUp($lookUp);
-
-# View the results
-echo $response->getBody()->getContents();
-```
-
-Example output is:
-
-```json
-{
-  status: "ok",
-  results: [
-    {
-      score: 0.950422,
-      id: "c97a7693-af5d-4d73-8334-e4588aec169a"
-    },
-    {
-      score: 0.720728,
-      id: "c8f5bfc0-3d4e-416d-857d-42d5d1c1e466"
-    }
-  ]
-}
-```
+* Lookup by audio fingerprint
+* Lookup by track ID
+* Submit audio fingerprints
+* Get data submission status
+* List AcoustIDs by MBID (MusicBrainz IDs)
 
 ### Usage
 
-To use this library you should first decide what kind of lookup you want. 
-
-At this moment library supports two types of lookups:
-* Lookup by TrackId
-* Lookup by FingerPrint
-
-Also library supports: 
-* Submiting new fingerprints to AcoustId
-* Getting the status for fingerprint submission
-
-**Basic lookups examples:**
-
-First you have to bootstrap the application, these lines are mandatory in all examples:
+After installation you should initialize library. 
+Here i use [Dotenv](https://github.com/vlucas/phpdotenv) package to avoid storing credentials inside php
+files. Also i use exception handler - [Whoops](https://github.com/filp/whoops), you can set your preferred
+one.
 
 ```php
-# Requiring the bootstrap is optional if you don't need helpers.php for debugging
-require_once __DIR__ . '/path/to/bootstrap.php';
-\AcoustId\Exception::setExceptionHandler();
-$client = new \AcoustId\AcoustId('YOUR_ACOUSTID_CLIENT_TOKEN');
+<?php
+#bootstrap.php
+
+# I use Dotenv package for config management (optional)
+$dotenv = Dotenv\Dotenv::create(__DIR__ . '/../');
+$dotenv->load();
+$dotenv->required(['API_APPLICATION_TOKEN', 'API_USER_TOKEN'])->notEmpty();
+
+# Set exception handler (optional)
+$whoops = new \Whoops\Run;
+$whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 ```
 
-**FingerPrint lookup:**
+**Lookup by fingerprint**
 
-```php
-$lookUp = new \AcoustId\LookUp\FingerPrint($duration, $fingerPrint);
+Here you should pass two required parameters - duration and  fingerprint. Both can be obtained from 
+[fpcalc](https://acoustid.org/chromaprint) utility.
 
-# Response format, ['json', 'jsonp', 'xml'], default if 'json'
-$lookUp->setFormat('json');
+fpcalc is used as:
 
-# Available meta data to get from service (you can combine theese ones to achieve necessary output)
-$lookUp->setMeta([
-  'recordings', 'recordingids', 'releases', 
-  'releaseids', 'releasegroups', 'releasegroupids', 
-  'tracks', 'compress', 'usermeta', 'sources'
-]);
-
-# You can set the callback functions
-$lookUp->setJsonCallBack('test');
-
-# Set basic data
-$lookUp->setMeta(['recordings']);
-
-$response = $client->lookUp(
-    $lookUp
-);
-echo $response->getBody()->getContents();
-
-# Example response with default meta
-# {"status": "ok", "results": [{"score": 0.950422, "id": "c97a7693-af5d-4d73-8334-e4588aec169a"}, {"score": 0.720728, "id": "c8f5bfc0-3d4e-416d-857d-42d5d1c1e466"}]}
+```bash
+fpcalc -json ./mp3/some-track.mp3
 ```
 
-**TrackId lookup:**
+You'll get something like:
+
+```json
+{"duration": 255, "fingerprint": "AQADtF8SZUkSRZjyzEMo.....long string"}
+```
+
+Decode data in php and you are ready to create API calls.
 
 ```php
-$lookUp = new \AcoustId\LookUp\TrackId($trackId);
+<?php
 
-# Optional response type and callback, you can wrap the response with JSONP callback
-$lookUp->setFormat('jsonp')->setJsonCallBack('testCallback');
+require_once '../vendor/autoload.php'; # Composer autoloader
+require_once 'bootstrap.php'; # See contents of bootstrap at the beginning 
 
-# Set requested meta
-$lookUp->setMeta([
-  'recordings', 'recordingids', 'releases', 
-  'releaseids', 'releasegroups', 'releasegroupids', 
-  'tracks', 'compress', 'usermeta', 'sources'
-]);
+# Here you can change getenv('API_APPLICATION_TOKEN') to your API token without getenv()
+$lookUp = new \AcoustId\LookUp\FingerPrint(getenv('API_APPLICATION_TOKEN'));
+$result = $lookUp->setJSONResponseType() # I want JSON response here (JSON is default)
+    ->setMetaData([ # Choose what meta data you want. See API details for info
+        \AcoustId\LookUp::META_RECORDINGS,
+        \AcoustId\LookUp::META_RELEASES,
+        \AcoustId\LookUp::META_USERMETA,
+        \AcoustId\LookUp::META_RECORDINGIDS,
+    ])->lookUp(255, 'AQADtF8SZUkSRZjyzEMo...'); # Data from fpcalc for certain media track
 
-$response = $client->lookUp(
-    $lookUp
-);
-
-echo $response->getBody()->getContents();
-
-# Example response with default meta
-# {"status": "ok", "results": [{"score": 1.0, "id": "c97a7693-af5d-4d73-8334-e4588aec169a"}]}
+# View the response (all examples should have the same lines at the end)
+echo $result->getBody()->getContents();
 ```
 
 Example response:
 
 ```json
-{
-  "status":"ok",
-  "results":[
-    {
-      "score":1.0,
-      "id":"c97a7693-af5d-4d73-8334-e4588aec169a"
-    }
-  ]
+{  
+   results:[  
+      {  
+         id:"5dfed459-fd8f-40d7-9d93-...",
+         recordings:[  
+            {},
+            {}
+         ],
+         score:0.926028
+      }
+   ],
+   status:"ok"
 }
 ```
 
-Both lookups support [JSONP](https://ru.wikipedia.org/wiki/JSONP) callbacks
+**Lookup by TrackId**
 
-**Submit new data to AcoustId:**
+Here you should pass track id (UUID) as main parameter.
 
 ```php
-# UserId can be found at https://acoustid.org/api-key after sign up
-$submission = new \AcoustId\Submission('ACOUSTID_USER_TOKEN', $duration, $fingerPrint);
-$response   = $client->submission(
-    $submission
-);
-echo $response->getBody()->getContents();
+<?php
 
-# Example response with default meta
-# {"status": "ok", "submissions": [{"status": "pending", "id": 155971755}]}
+require_once '../vendor/autoload.php';
+require_once 'bootstrap.php';
+
+$trackId = new \AcoustId\LookUp\TrackId(getenv('API_APPLICATION_TOKEN'));
+
+# Optional response type JSONP and callback
+//$lookUp->setFormat('jsonp')->setJsonCallBack('testCallback');
+
+$trackId->setMetaData([
+    \AcoustId\LookUp::META_RECORDINGS,
+    \AcoustId\LookUp::META_RECORDINGIDS,
+]);
+
+$result = $trackId->lookUp('5dfed459-fd8f-40d7-9d93-...');
 ```
 
-**Get the submission status:**
+Example response:
 
-```php
-# Here we need the submission id from previous request: $submissionId = 155971755
-$status = new \AcoustId\Submission\Status($submissionId);
-
-# Read the submission state
-$response = $client->submissionStatus($status);
-echo $response->getBody()->getContents();
-
-# Example response with default meta
-# {"status": "ok", "submissions": [{"status": "imported", "id": 155971755, "result": {"id": "c97a7693-af5d-4d73-8334-e4588aec169a"}}]}
+```json
+{  
+   results:[  
+      {  
+         id:"5dfed459-fd8f-40d7-9d93-...",
+         recordings:[  
+            {  
+               id:"180a17dd-f456-4ff2-be39-..."
+            },
+            {...},
+            {  
+               id:"c6b6ea6b-52a7-46b3-9821-..."
+            }
+         ],
+         score:1
+      }
+   ],
+   status:"ok"
+}
 ```
 
-**List tracks by MBID:**
+**Submit audio fingerprints**
+
+If you wish to support AcoustId database with your own data - you'll need also user API token 
+(second one, only for data submit requests). Get your personal user's API key 
+[here](https://acoustid.org/api-key). In this code example i use 
+[getId3 library](https://github.com/JamesHeinrich/getID3) for extracting the id3 tags from mp3 files.
 
 ```php
-# $mbid could be an array (for batch requests) or string. 
-$list = new \AcoustId\ListByMDID($mbid);
+<?php
 
-# Optionally you can use batch requests, see params above. # If $mbid is array - the batch would be set to 1 automatically
-$list->setBatch(1);
+require_once '../vendor/autoload.php';
+require_once './bootstrap.php';
 
-# list data
-$response = $client->listByMBID($list);
+$dir  = __DIR__ . '/..';
+$x    = exec(escapeshellcmd('fpcalc -json ./../mp3/some-track.mp3'), $output, $return);
+$data = json_decode($output[0]);
 
-echo $response->getBody()->getContents();
+$id3   = new getID3();
+$file1 = $id3->analyze('./../mp3/some-track.mp3');
+
+$submission = new \AcoustId\Submission(getenv('API_APPLICATION_TOKEN'));
+$result     = $submission->setJSONResponseType()
+    ->setWait(1) # How long to wait for request to be processed
+    ->setDuration($data->duration)
+    ->setUserToken(getenv('API_USER_TOKEN')) # User's API token
+    ->setFingerPrint($data->fingerprint)
+    ->setAlbumArtist($file1['id3v2']['comments']['artist'][0]) # Array structure for 
+    ->setTrackTitle($file1['id3v2']['comments']['title'][0])   # your track may differ
+    ->setTrackNo(20)
+    ->send();
 ```
 
-**Batch data submission:**
+Example response:
+
+```json
+{  
+   status:"ok",
+   submissions:[  
+      {  
+         id:1234567890,
+         result:{  
+            id:"5dfed459-fd8f-40d7-9d93-..."
+         },
+         status:"imported"
+      }
+   ]
+}
+```
+
+Or if submission is pending:
+
+```json
+{  
+   "status":"ok",
+   "submissions":[  
+      {  
+         "id":123456789,
+         "status":"pending"
+      }
+   ]
+}
+```
+
+**Batch submit fingerprints**
+
+You can pass several fingerprints at the same time as:
 
 ```php
+<?php
 
-# Pass $d - duration and $f - fingerPrint parameters as arrays, where $d[0] corresponds $f[0]
-$submission = new \AcoustId\Submission\Batch($userId, $d, $f);
+require_once '../vendor/autoload.php';
+require_once './bootstrap.php';
 
-# Set optional wait timeout
-$submission->setWait(10);
+$batch = new \AcoustId\Submission\Batch(getenv('API_APPLICATION_TOKEN'));
+$batch->setUserToken(getenv('API_USER_TOKEN'));
+$batch->setWait(5);
 
-$response = $client->submissionBatch(
-    $submission
-);
+$batch->setBatch([
+    (new AcoustId\Submission($batch->getClientAPIToken()))
+        ->setFingerPrint('BDQGOCRIIpDoYgA...')
+        ->setDuration(256),
+    (new AcoustId\Submission($batch->getClientAPIToken()))
+        ->setFingerPrint('AQADtEmiKEnCREl...')
+        ->setDuration(238),
+]);
 
-echo $response->getBody()->getContents();
-# {"status": "ok", "submissions": [{"status": "imported", "index": "0", "id": 156695883, "result": {"id": "c97a7693-af5d-4d73-8334-e4588aec169a"}}]}
+$result = $batch->sendBatch();
+```
+
+Example response:
+
+```json
+{  
+   status:"ok",
+   submissions:[  
+      {  
+         id:1234567890,
+         index:"0",
+         result:{  
+            id:"5dfed459-fd8f-40d7-9d93-..."
+         },
+         status:"imported"
+      },
+      {  
+         id:1234567890,
+         index:"1",
+         result:{  
+            id:"f786e327-453d-49b6-b313-..."
+         },
+         status:"imported"
+      }
+   ]
+}
+```
+
+**Get submission status**
+
+After submitting your data to AcoustId you probably will need to check the submission state, 
+especially when submission could not be imported immediately ('pending' status). 
+So get your submission id and run:
+
+```php
+<?php
+
+require_once '../vendor/autoload.php';
+require_once 'bootstrap.php';
+
+$status = new \AcoustId\Submission\Status(getenv('API_APPLICATION_TOKEN'));
+$result = $status->setSubmissionId(123456789)->find();
+//or
+$result = $status->find(123456789);
+```
+
+Example response:
+
+```json
+{  
+   status:"ok",
+   submissions:[  
+      {  
+         id:123456789,
+         result:{  
+            id:"e13393ef-7b4f-4a35-ae86-..."
+         },
+         status:"imported"
+      }
+   ]
+}
+```
+
+**List AcoustIDs by MBID**
+
+You'll need MusicBrainz recording ID for such request.
+
+```php
+<?php
+
+require_once '../vendor/autoload.php';
+require_once './bootstrap.php';
+
+$list   = new \AcoustId\ListByMBId(getenv('API_APPLICATION_TOKEN'));
+$list->setJSONResponseType();
+$result = $list->search('4e0d8649-1f89-44f3-91af-...');
+```
+
+Example response:
+
+```json
+{  
+   status:"ok",
+   tracks:[  
+      {  
+         id:"8dbf2f94-3e91-4501-bb47-..."
+      },
+      {...},
+      {  
+         id:"12123b04-1bd6-4f55-9afa-..."
+      }
+   ]
+}
 ```
 
 ---
 
-For more details see examples at **/examples** folder
+For more details see examples at **/examples** folder.
 
 Info about AcoustId.org web service could be found [here](https://acoustid.org/webservice)
-
-### Note
-
-This is *development* release. If you encounter any problems - open an issue.
-
-### Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
 
 ### License
 
