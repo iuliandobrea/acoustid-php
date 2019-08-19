@@ -45,7 +45,7 @@ class Batch extends Request
     }
 
     /**
-     * @param \AcoustId\ListByMBId|\AcoustId\LookUp|Submission|Submission\Batch $submission
+     * @param Submission\Batch $submission
      *
      * @return array
      * @throws UnexpectedValueException
