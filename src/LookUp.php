@@ -29,17 +29,28 @@ abstract class LookUp extends AcoustId
      * @var array
      */
     private $metaAllowedValues = [
-        'recordings',
-        'recordingids',
-        'releases',
-        'releaseids',
-        'releasegroups',
-        'releasegroupids',
-        'tracks',
-        'compress',
-        'usermeta',
-        'sources',
+        self::META_RECORDINGS,
+        self::META_RECORDINGIDS,
+        self::META_RELEASES,
+        self::META_RELEASESIDS,
+        self::META_RELEASEGROUPS,
+        self::META_RELEASEGROUPIDS,
+        self::META_TRACKS,
+        self::META_COMPRESS,
+        self::META_USERMETA,
+        self::META_SOURCES,
     ];
+
+    const META_RECORDINGS      = 'recordings';
+    const META_RECORDINGIDS    = 'recordingids';
+    const META_RELEASES        = 'releases';
+    const META_RELEASESIDS     = 'releaseids';
+    const META_RELEASEGROUPS   = 'releasegroups';
+    const META_RELEASEGROUPIDS = 'releasegroupids';
+    const META_TRACKS          = 'tracks';
+    const META_COMPRESS        = 'compress';
+    const META_USERMETA        = 'usermeta';
+    const META_SOURCES         = 'sources';
 
     /**
      * AcoustId API base url.
