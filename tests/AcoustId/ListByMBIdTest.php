@@ -56,6 +56,6 @@ class ListByMBIdTest extends TestCase
     public function testSearch()
     {
         $result = $this->instance->search('4e0d8649-1f89-44f3-91af-4c0dbee81f28');
-        $this->assertEquals('ok', json_decode($result->getBody()->getContents())->status);
+        $this->isSuccessfulResult($result);
     }
 }

@@ -45,19 +45,6 @@ class LookUpTest extends TestCase
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      * @covers \AcoustId\LookUp::setMetaData
-     * @covers \AcoustId\LookUp::getMetaData
-     */
-    public function testSetMetaData()
-    {
-        $this->instance->setMetaData(['releases', 'releaseids', 'tracks', 'compress', 'usermeta']);
-
-        $this->assertEquals(['releases', 'releaseids', 'tracks', 'compress', 'usermeta'], $this->instance->getMetaData());
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     * @throws UnexpectedValueException
-     * @covers \AcoustId\LookUp::setMetaData
      */
     public function testSetBadMetaData()
     {

@@ -58,10 +58,6 @@ class TrackIdTest extends TestCase
     public function testLookUp()
     {
         $result = $this->instance->lookUp($this->trackId);
-        $json   = json_decode($result->getBody()->getContents());
-        $this->assertEquals(200, $result->getStatusCode());
-        $this->assertEquals('ok', $json->status);
+        $this->isSuccessfulResult($result);
     }
-
-
 }

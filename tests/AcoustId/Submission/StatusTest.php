@@ -64,12 +64,19 @@ class StatusTest extends TestCase
     }
 
     /**
+     * @throws InvalidArgumentException
      * @throws \AcoustId\Exceptions\HttpException
+     * @throws \AcoustId\Exceptions\UnexpectedValueException
      * @covers \AcoustId\Submission\Status::find
      */
     public function testSearch()
     {
         $result = $this->instance->find(485753422);
+        $this->assertEquals('ok', json_decode($result->getBody()->getContents())->status);
+        $this->assertEquals(200, $result->getStatusCode());
+
+        $this->instance->setSubmissionId(485753422);
+        $result = $this->instance->find();
         $this->assertEquals('ok', json_decode($result->getBody()->getContents())->status);
         $this->assertEquals(200, $result->getStatusCode());
     }
