@@ -1,5 +1,7 @@
 # AcoustId API
 
+[![Build Status](https://travis-ci.com/psilocyberunner/acoustid-php.svg?branch=master)](https://travis-ci.com/psilocyberunner/acoustid-php)
+
 This project is a PHP wrapper around [Acoustid.org](https://acoustid.org/webservice) Web Services API.
 
 ### Installation
