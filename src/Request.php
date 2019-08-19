@@ -5,6 +5,7 @@ namespace AcoustId;
 use AcoustId\Exceptions\AcoustIdException;
 use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
+use AcoustId\Submission\Batch;
 use GuzzleHttp\Client;
 
 /**
@@ -127,7 +128,7 @@ abstract class Request
     }
 
     /**
-     * @param LookUp|Submission|ListByMBId $instance
+     * @param LookUp|Submission|ListByMBId|Batch $instance
      *
      * @return array
      */
