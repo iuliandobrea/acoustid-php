@@ -49,9 +49,11 @@ class Status extends AcoustId
      * @throws \AcoustId\Exceptions\UnexpectedValueException
      * @throws InvalidArgumentException
      */
-    public function find(int $id)
+    public function find(int $id = 0)
     {
-        $this->setSubmissionId($id);
+        if (!empty($id)){
+            $this->setSubmissionId($id);
+        }
 
         try {
             $request = new \AcoustId\Request\Submission\Status($this);
