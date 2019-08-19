@@ -1,11 +1,11 @@
 <?php
 
-/**
- * This is a part of examples package. How to get a submission status
- * 155396581 - is the submission id. Can be obtained from submission data.
- */
+require_once '../vendor/autoload.php';
+require_once 'bootstrap.php';
 
-$status = new \AcoustId\Submission\Status(155396581);
-# -1. Read the submission state
-$response = $client->submissionStatus($status);
-echo $response->getBody()->getContents();
+$status = new \AcoustId\Submission\Status(getenv('API_APPLICATION_TOKEN'));
+$result = $status->setSubmissionId(1234567890)->find();
+//or
+$result = $status->find(1234567890);
+
+echo $result->getBody()->getContents();

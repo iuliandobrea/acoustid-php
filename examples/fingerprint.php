@@ -1,23 +1,18 @@
 <?php
 
-/**
- * This is a part of examples package. How to look up data by fingerprint.
- * Fingerprints are obtained by using the fpcalc utility. See AcoustId web site for details.
- */
+require_once '../vendor/autoload.php';
+require_once 'bootstrap.php';
 
-$lookUp = new \AcoustId\LookUp\FingerPrint($d, $f);
-$lookUp->setFormat('json');
+$lookUp = new \AcoustId\LookUp\FingerPrint(getenv('API_APPLICATION_TOKEN'));
+$result = $lookUp
+    ->setJSONResponseType()
+//    ->setXMLResponseType()
+//    ->setJSONPResponseType('test')
+    ->setMetaData([
+        \AcoustId\LookUp::META_RECORDINGS,
+        \AcoustId\LookUp::META_RELEASES,
+        \AcoustId\LookUp::META_USERMETA,
+        \AcoustId\LookUp::META_RECORDINGIDS,
+    ])->lookUp(1, 'test');
 
-# Available meta data to get from service
-//$lookUp->setMeta(['recordings', 'recordingids', 'releases', 'releaseids', 'releasegroups', 'releasegroupids', 'tracks', 'compress', 'usermeta', 'sources']);
-
-# You can set the callback functions
-//$lookUp->setJsonCallBack('test');
-
-# Set basic data
-$lookUp->setMeta(['recordings']);
-
-$response = $client->lookUp(
-    $lookUp
-);
-echo $response->getBody()->getContents();
+echo $result->getBody()->getContents();

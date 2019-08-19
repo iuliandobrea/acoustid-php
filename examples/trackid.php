@@ -1,20 +1,19 @@
 <?php
 
-/**
- * This is a part of examples package. How to look up data by track id.
- * TrackId are obtained musicbrainz library.
- */
+require_once '../vendor/autoload.php';
+require_once 'bootstrap.php';
 
-$lookUp = new \AcoustId\LookUp\TrackId($t);
+$trackId = new \AcoustId\LookUp\TrackId(getenv('API_APPLICATION_TOKEN'));
 
 # Optional response type and callback
 //$lookUp->setFormat('jsonp')->setJsonCallBack('testCallback');
 
-# Set requested meta
-$lookUp->setMeta(['recordings', 'recordingids', 'releases', 'releaseids', 'releasegroups', 'releasegroupids', 'tracks', 'compress', 'usermeta', 'sources']);
+# Set required meta
+$trackId->setMetaData([
+    \AcoustId\LookUp::META_RECORDINGS,
+    \AcoustId\LookUp::META_RECORDINGIDS,
+]);
 
-$response = $client->lookUp(
-    $lookUp
-);
+$result = $trackId->lookUp('5dfed459-fd8f-40d7-9d93-...');
 
-echo $response->getBody()->getContents();
+echo $result->getBody()->getContents();

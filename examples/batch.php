@@ -1,23 +1,17 @@
 <?php
 
-/**
- * This is a part of examples package. How to submit new data by batch request
- */
+require_once '../vendor/autoload.php';
+require_once './bootstrap.php';
 
-$userId = get('u');
+$batch = new \AcoustId\Submission\Batch(getenv('API_APPLICATION_TOKEN'));
+$batch->setUserToken(getenv('API_USER_TOKEN'));
+$batch->setWait(5);
 
-if (empty($userId)) {
-    throw new \AcoustId\Exception('Please provide the $userId parameter by passing the ?u=xxx parameter, where xxx is your userId from AcoustId web service.');
-}
+$batch->setBatch([
+    (new AcoustId\Submission($batch->getClientAPIToken()))->setFingerPrint('test1')->setDuration(1),
+    (new AcoustId\Submission($batch->getClientAPIToken()))->setFingerPrint('test2')->setDuration(2),
+]);
 
-# Pass $d - duration and $f - fingerPrint parameters as arrays, where $d[0] corresponds $f[0]
-$submission = new \AcoustId\Submission\Batch($userId, $d, $f);
+$result = $batch->sendBatch();
 
-# Set optional wait timeout
-$submission->setWait(10);
-
-$response = $client->submissionBatch(
-    $submission
-);
-
-echo $response->getBody()->getContents();
+echo $result->getBody()->getContents();
