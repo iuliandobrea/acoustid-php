@@ -8,7 +8,7 @@ $batch->setUserToken(getenv('API_USER_TOKEN'));
 $batch->setWait(5);
 
 $batch->setBatch([
-    (new AcoustId\Submission($batch->getClientAPIToken()))->setFingerPrint('test1')->setDuration(1),
+    (new AcoustId\Submission($batch->getClientAPIToken()))->setFingerPrint(getenv('EXAMPLE_FINGERPRINT'))->setDuration(getenv('EXAMPLE_DURATION')),
     (new AcoustId\Submission($batch->getClientAPIToken()))->setFingerPrint('test2')->setDuration(2),
 ]);
 

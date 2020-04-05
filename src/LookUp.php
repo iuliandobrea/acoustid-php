@@ -80,7 +80,7 @@ abstract class LookUp extends AcoustId
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function setMetaData(array $metaData)
+    public function setMetaData(array $metaData): self
     {
         if (empty($metaData)) {
             throw new InvalidArgumentException('$metaData parameter must be a non-empty array');

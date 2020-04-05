@@ -5,6 +5,7 @@ namespace AcoustId;
 use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ListByMBId
@@ -30,7 +31,7 @@ class ListByMBId extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setMBId(string $MBId)
+    public function setMBId(string $MBId): self
     {
         if (empty($MBId)) {
             throw new InvalidArgumentException('MusicBrainz recording ID can not be empty.');
@@ -56,7 +57,7 @@ class ListByMBId extends AcoustId
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function search($MBId)
+    public function search($MBId): ResponseInterface
     {
         $this->setMBId($MBId);
 

@@ -36,9 +36,9 @@ class FingerPrint extends Request
      *
      * @return array
      */
-    protected function createBaseQueryString($submission): array
+    protected function createBaseQueryStringParameters($submission): array
     {
-        $query = parent::createBaseQueryString($submission);
+        $query = parent::createBaseQueryStringParameters($submission);
 
         $query['duration']    = $submission->getDuration();
         $query['fingerprint'] = $submission->getFingerPrint();
@@ -51,7 +51,7 @@ class FingerPrint extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query = $this->createBaseQueryString($this->lookUp);
+        $query = $this->createBaseQueryStringParameters($this->lookUp);
 
         if ($this->lookUp->getResponseType() == 'jsonp') {
             $query['jsoncallback'] = $this->lookUp->getJsonCallBack();

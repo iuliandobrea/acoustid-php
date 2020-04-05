@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AcoustId;
+namespace Tests\AcoustId\LookUp;
 
 use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
@@ -22,6 +22,16 @@ class FingerPrintTest extends TestCase
     protected $instance;
 
     /**
+     * @var string
+     */
+    protected $fingerPrint;
+
+    /**
+     * @var int
+     */
+    protected $duration;
+
+    /**
      * FingerPrintTest constructor.
      *
      * @param string|null $name
@@ -36,15 +46,14 @@ class FingerPrintTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends FingerPrint
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends FingerPrint {
         };
 
         # Test meta data
-        $this->fp = 'AQABz0qUkZK4oOfhL-CPc4e5C_wW2H2QH9uDL4cvoT8UNQ-eHtsE8cceeFJx-LiiHT-aPzhxoc-Opj_eI5d2hOFyMJRzfDk-QSsu7fBxqZDMHcfxPfDIoPWxv9C1o3yg44d_3Df2GJaUQeeR-cb2HfaPNsdxHj2PJnpwPMN3aPcEMzd-_MeB_Ej4D_CLP8ghHjkJv_jh_UDuQ8xnILwunPg6hF2R8HgzvLhxHVYP_ziJX0eKPnIE1UePMByDJyg7wz_6yELsB8n4oDmDa0Gv40hf6D3CE3_wH6HFaxCPUD9-hNeF5MfWEP3SCGym4-SxnXiGs0mRjEXD6fgl4LmKWrSChzzC33ge9PB3otyJMk-IVC6R8MTNwD9qKQ_CC8kPv4THzEGZS8GPI3x0iGVUxC1hRSizC5VzoamYDi-uR7iKPhGSI82PkiWeB_eHijvsaIWfBCWH5AjjCfVxZ1TQ3CvCTclGnEMfHbnZFA8pjD6KXwd__Cn-Y8e_I9cq6CR-4S9KLXqQcsxxoWh3eMxiHI6TIzyPv0M43YHz4yte-Cv-4D16Hv9F9C9SPUdyGtZRHV-OHEeeGD--BKcjVLOK_NCDXMfx44dzHEiOZ0Z44Rf6DH5R3uiPj4d_PKolJNyRJzyu4_CTD2WOvzjKH9GPb4cUP1Av9EuQd8fGCFee4JlRHi18xQh96NLxkCgfWFKOH6WGeoe4I3za4c5hTscTPEZTES1x8kE-9MQPjT8a8gh5fPgQZtqCFj9MDvp6fDx6NCd07bjx7MLR9AhtnFnQ70GjOcV0opmm4zpY3SOa7HiwdTtyHa6NC4e-HN-OfC5-OP_gLe2QDxfUCz_0w9l65HiPAz9-IaGOUA7-4MZ5CWFOlIfe4yUa6AiZGxf6w0fFxsjTOdC6Itbh4mGD63iPH9-RFy909XAMj7mC5_BvlDyO6kGTZKJxHUd4NDwuZUffw_5RMsde5CWkJAgXnDReNEaP6DTOQ65yaD88HoeX8fge-DSeHo9Qa8cTHc80I-_RoHxx_UHeBxrJw62Q34Kd7MEfpCcu6BLeB1ePw6OO4sOF_sHhmB504WWDZiEu8sKPpkcfCT9xfej0o0lr4T5yNJeOvjmu40w-TDmqHXmYgfFhFy_M7tD1o0cO_B2ms2j-ACEEQgQgAIwzTgAGmBIKIImNQAABwgQATAlhDGCCEIGIIM4BaBgwQBogEBIOESEIA8ARI5xAhxEFmAGAMCKAURKQQpQzRAAkCCBQEAKkQYIYIQQxCixCDADCABMAE0gpJIgyxhEDiCKCCIGAEIgJIQByAhFgGACCACMRQEyBAoxQiHiCBCFOECQFAIgAABR2QAgFjCDMA0AUMIoAIMChQghChASGEGeYEAIAIhgBSErnJPPEGWYAMgw05AhiiGHiBBBGGSCQcQgwRYJwhDDhgCSCSSEIQYwILoyAjAIigBFEUQK8gAYAQ5BCAAjkjCCAEEMZAUQAZQCjCCkpCgFMCCiIcVIAZZgilAQAiSHQECOcQAQIc4QClAHAjDDGkAGAMUoBgyhihgEChFCAAWEIEYwIJYwViAAlHCBIGEIEAEIQAoBwwgwiEBAEEEOoEwBY4wRwxAhBgAcKAESIQAwwIowRFhoBhAE';
-        $this->d  = 641;
+        $this->fingerPrint = 'AQABz0qUkZK4oOfhL-CPc4e5C_wW2H2QH9uDL4cvoT8UNQ-eHtsE8cceeFJx-LiiHT-aPzhxoc-Opj_eI5d2hOFyMJRzfDk-QSsu7fBxqZDMHcfxPfDIoPWxv9C1o3yg44d_3Df2GJaUQeeR-cb2HfaPNsdxHj2PJnpwPMN3aPcEMzd-_MeB_Ej4D_CLP8ghHjkJv_jh_UDuQ8xnILwunPg6hF2R8HgzvLhxHVYP_ziJX0eKPnIE1UePMByDJyg7wz_6yELsB8n4oDmDa0Gv40hf6D3CE3_wH6HFaxCPUD9-hNeF5MfWEP3SCGym4-SxnXiGs0mRjEXD6fgl4LmKWrSChzzC33ge9PB3otyJMk-IVC6R8MTNwD9qKQ_CC8kPv4THzEGZS8GPI3x0iGVUxC1hRSizC5VzoamYDi-uR7iKPhGSI82PkiWeB_eHijvsaIWfBCWH5AjjCfVxZ1TQ3CvCTclGnEMfHbnZFA8pjD6KXwd__Cn-Y8e_I9cq6CR-4S9KLXqQcsxxoWh3eMxiHI6TIzyPv0M43YHz4yte-Cv-4D16Hv9F9C9SPUdyGtZRHV-OHEeeGD--BKcjVLOK_NCDXMfx44dzHEiOZ0Z44Rf6DH5R3uiPj4d_PKolJNyRJzyu4_CTD2WOvzjKH9GPb4cUP1Av9EuQd8fGCFee4JlRHi18xQh96NLxkCgfWFKOH6WGeoe4I3za4c5hTscTPEZTES1x8kE-9MQPjT8a8gh5fPgQZtqCFj9MDvp6fDx6NCd07bjx7MLR9AhtnFnQ70GjOcV0opmm4zpY3SOa7HiwdTtyHa6NC4e-HN-OfC5-OP_gLe2QDxfUCz_0w9l65HiPAz9-IaGOUA7-4MZ5CWFOlIfe4yUa6AiZGxf6w0fFxsjTOdC6Itbh4mGD63iPH9-RFy909XAMj7mC5_BvlDyO6kGTZKJxHUd4NDwuZUffw_5RMsde5CWkJAgXnDReNEaP6DTOQ65yaD88HoeX8fge-DSeHo9Qa8cTHc80I-_RoHxx_UHeBxrJw62Q34Kd7MEfpCcu6BLeB1ePw6OO4sOF_sHhmB504WWDZiEu8sKPpkcfCT9xfej0o0lr4T5yNJeOvjmu40w-TDmqHXmYgfFhFy_M7tD1o0cO_B2ms2j-ACEEQgQgAIwzTgAGmBIKIImNQAABwgQATAlhDGCCEIGIIM4BaBgwQBogEBIOESEIA8ARI5xAhxEFmAGAMCKAURKQQpQzRAAkCCBQEAKkQYIYIQQxCixCDADCABMAE0gpJIgyxhEDiCKCCIGAEIgJIQByAhFgGACCACMRQEyBAoxQiHiCBCFOECQFAIgAABR2QAgFjCDMA0AUMIoAIMChQghChASGEGeYEAIAIhgBSErnJPPEGWYAMgw05AhiiGHiBBBGGSCQcQgwRYJwhDDhgCSCSSEIQYwILoyAjAIigBFEUQK8gAYAQ5BCAAjkjCCAEEMZAUQAZQCjCCkpCgFMCCiIcVIAZZgilAQAiSHQECOcQAQIc4QClAHAjDDGkAGAMUoBgyhihgEChFCAAWEIEYwIJYwViAAlHCBIGEIEAEIQAoBwwgwiEBAEEEOoEwBY4wRwxAhBgAcKAESIQAwwIowRFhoBhAE';
+        $this->duration    = 641;
     }
 
     /**
@@ -52,10 +61,10 @@ class FingerPrintTest extends TestCase
      * @covers \AcoustId\LookUp\FingerPrint::setDuration
      * @covers \AcoustId\LookUp\FingerPrint::getDuration
      */
-    public function testSetDuration()
+    public function testSetDuration(): void
     {
-        $this->instance->setDuration($this->d);
-        $this->assertEquals($this->d, $this->instance->getDuration());
+        $this->instance->setDuration($this->duration);
+        $this->assertEquals($this->duration, $this->instance->getDuration());
 
         $this->expectException(InvalidArgumentException::class);
         $this->instance->setDuration(-1);
@@ -66,10 +75,10 @@ class FingerPrintTest extends TestCase
      * @covers \AcoustId\LookUp\FingerPrint::setFingerPrint
      * @covers \AcoustId\LookUp\FingerPrint::getFingerPrint
      */
-    public function testSetFingerPrint()
+    public function testSetFingerPrint(): void
     {
-        $this->instance->setFingerPrint($this->fp);
-        $this->assertEquals($this->fp, $this->instance->getFingerPrint());
+        $this->instance->setFingerPrint($this->fingerPrint);
+        $this->assertEquals($this->fingerPrint, $this->instance->getFingerPrint());
     }
 
     /**
@@ -77,10 +86,11 @@ class FingerPrintTest extends TestCase
      * @throws InvalidArgumentException
      * @covers \AcoustId\LookUp\FingerPrint::lookUp
      */
-    public function testLookUpBadClientId()
+    public function testLookUpBadClientId(): void
     {
         $this->expectException(HttpException::class);
         $this->instance->lookUp(1, 'fp');
+        $this->assertEquals(400, $this->getExpectedExceptionCode());
     }
 
     /**
@@ -89,10 +99,10 @@ class FingerPrintTest extends TestCase
      * @throws \AcoustId\Exceptions\UnexpectedValueException
      * @covers \AcoustId\LookUp\FingerPrint::lookUp
      */
-    public function testLookUp()
+    public function testLookUp(): void
     {
         $fp = new FingerPrint(getenv('API_APPLICATION_TOKEN'));
-        $this->assertInstanceOf(ResponseInterface::class, ($result = $fp->lookUp($this->d, $this->fp)));
+        $this->assertInstanceOf(ResponseInterface::class, ($result = $fp->lookUp($this->duration, $this->fingerPrint)));
         $this->isSuccessfulResult($result);
         $result = json_decode($result->getBody()->getContents());
         $this->assertTrue(!empty($result->results));
@@ -103,14 +113,14 @@ class FingerPrintTest extends TestCase
      * @throws InvalidArgumentException
      * @throws \AcoustId\Exceptions\UnexpectedValueException
      */
-    public function testLookUpMeta()
+    public function testLookUpMeta(): void
     {
         $fp = new FingerPrint(getenv('API_APPLICATION_TOKEN'));
         $this->assertInstanceOf(ResponseInterface::class, ($result = $fp->setMetaData([
             LookUp::META_RECORDINGS,
             LookUp::META_RELEASEGROUPS,
             LookUp::META_COMPRESS,
-        ])->lookUp($this->d, $this->fp)));
+        ])->lookUp($this->duration, $this->fingerPrint)));
         $this->isSuccessfulResult($result);
         $result = json_decode($result->getBody()->getContents());
         $this->assertTrue(!empty($result->results));

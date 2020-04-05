@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Submission;
+namespace Tests\AcoustId\Submission;
 
 use AcoustId\Exceptions\BadMethodCallException;
 use AcoustId\Exceptions\InvalidArgumentException;
@@ -20,6 +20,11 @@ class StatusTest extends TestCase
     protected $instance;
 
     /**
+     * @var int
+     */
+    protected $submissionId = 485753422;
+
+    /**
      * StatusTest constructor.
      *
      * @param string|null $name
@@ -34,17 +39,16 @@ class StatusTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends Status
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends Status {
         };
     }
 
     /**
      * @throws BadMethodCallException
      */
-    public function testSetJSONPResponseType()
+    public function testSetJSONPResponseType(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->instance->setJSONPResponseType('test');
@@ -53,11 +57,12 @@ class StatusTest extends TestCase
     /**
      * @covers \AcoustId\Submission\Status::setSubmissionId
      * @covers \AcoustId\Submission\Status::getSubmissionId
+     * @throws InvalidArgumentException
      */
-    public function testSetSubmissionId()
+    public function testSetSubmissionId(): void
     {
-        $this->instance->setSubmissionId(485753422);
-        $this->assertEquals(485753422, $this->instance->getSubmissionId());
+        $this->instance->setSubmissionId($this->submissionId);
+        $this->assertEquals($this->submissionId, $this->instance->getSubmissionId());
 
         $this->expectException(InvalidArgumentException::class);
         $this->instance->setSubmissionId(-1);
@@ -69,13 +74,13 @@ class StatusTest extends TestCase
      * @throws \AcoustId\Exceptions\UnexpectedValueException
      * @covers \AcoustId\Submission\Status::find
      */
-    public function testSearch()
+    public function testSearch(): void
     {
-        $result = $this->instance->find(485753422);
+        $result = $this->instance->find($this->submissionId);
         $this->assertEquals('ok', json_decode($result->getBody()->getContents())->status);
         $this->assertEquals(200, $result->getStatusCode());
 
-        $this->instance->setSubmissionId(485753422);
+        $this->instance->setSubmissionId($this->submissionId);
         $result = $this->instance->find();
         $this->assertEquals('ok', json_decode($result->getBody()->getContents())->status);
         $this->assertEquals(200, $result->getStatusCode());

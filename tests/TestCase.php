@@ -24,13 +24,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param ResponseInterface $result
+     * @param ResponseInterface $response
      */
-    protected function isSuccessfulResult(ResponseInterface $result)
+    protected function isSuccessfulResult(ResponseInterface $response): void
     {
-        $this->assertEquals(200, $result->getStatusCode());
-        $r = json_decode($result->getBody()->getContents());
-        $result->getBody()->rewind();
+        $this->assertEquals(200, $response->getStatusCode());
+        $r = json_decode($response->getBody()->getContents());
+        $response->getBody()->rewind();
         $this->assertTrue($r->status === 'ok');
     }
 }

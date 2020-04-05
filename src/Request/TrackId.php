@@ -36,7 +36,7 @@ class TrackId extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query            = $this->createBaseQueryString($this->lookUp);
+        $query            = $this->createBaseQueryStringParameters($this->lookUp);
         $query['trackid'] = $this->lookUp->getTrackId();
 
         if ($this->lookUp->getResponseType() == 'jsonp') {

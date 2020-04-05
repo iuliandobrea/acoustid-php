@@ -54,7 +54,7 @@ class Batch extends Submission
      * @throws UnexpectedValueException
      * @throws \AcoustId\Exceptions\InvalidArgumentException
      */
-    public function sendBatch(array $batch = [])
+    public function sendBatch(array $batch = []): ResponseInterface
     {
         if (!empty($batch)) {
             $this->setBatch($batch);
@@ -74,7 +74,7 @@ class Batch extends Submission
      *
      * @return $this
      */
-    public function appendToBatch(Submission $item)
+    public function appendToBatch(Submission $item): self
     {
         array_push($this->batch, $item);
 
@@ -86,7 +86,7 @@ class Batch extends Submission
      *
      * @return $this
      */
-    public function setBatch(array $batch)
+    public function setBatch(array $batch): self
     {
         $this->batch = $batch;
 

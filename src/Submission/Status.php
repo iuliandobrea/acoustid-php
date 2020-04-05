@@ -7,6 +7,7 @@ use AcoustId\Exceptions\BadMethodCallException;
 use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Status
@@ -49,9 +50,9 @@ class Status extends AcoustId
      * @throws \AcoustId\Exceptions\UnexpectedValueException
      * @throws InvalidArgumentException
      */
-    public function find(int $id = 0)
+    public function find(int $id = 0): ResponseInterface
     {
-        if (!empty($id)){
+        if (!empty($id)) {
             $this->setSubmissionId($id);
         }
 
@@ -81,7 +82,7 @@ class Status extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setSubmissionId(int $id)
+    public function setSubmissionId(int $id): self
     {
         if ($id <= 0) {
             throw new InvalidArgumentException('Submission id must be positive integer. ' . $id . ' given.');

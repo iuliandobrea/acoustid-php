@@ -2,6 +2,7 @@
 
 namespace Tests\AcoustId;
 
+use AcoustId\Exceptions\HttpException;
 use AcoustId\ListByMBId;
 use Tests\TestCase;
 
@@ -33,18 +34,18 @@ class ListByMBIdTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends ListByMBId
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends ListByMBId {
         };
     }
 
     /**
      * @covers \AcoustId\ListByMBId::setMBId
      * @covers \AcoustId\ListByMBId::getMBId
+     * @throws \AcoustId\Exceptions\InvalidArgumentException
      */
-    public function testSetMBId()
+    public function testSetMBId(): void
     {
         $this->instance->setMBId('test');
         $this->assertEquals('test', $this->instance->getMBId());
@@ -53,9 +54,22 @@ class ListByMBIdTest extends TestCase
     /**
      * @covers \AcoustId\ListByMBId::search
      */
-    public function testSearch()
+    public function testSearch(): void
     {
         $result = $this->instance->search('4e0d8649-1f89-44f3-91af-4c0dbee81f28');
         $this->isSuccessfulResult($result);
+    }
+
+    /**
+     * @throws HttpException
+     * @throws \AcoustId\Exceptions\InvalidArgumentException
+     * @covers \AcoustId\ListByMBId::search
+     */
+    public function testSearchFail()
+    {
+        $this->expectException(HttpException::class);
+        $this->instance->search(uniqid());
+
+        $this->assertEquals(400, $this->getExpectedExceptionCode());
     }
 }

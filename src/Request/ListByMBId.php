@@ -36,9 +36,9 @@ class ListByMBId extends Request
      *
      * @return array
      */
-    protected function createBaseQueryString($list): array
+    protected function createBaseQueryStringParameters($list): array
     {
-        $query = parent::createBaseQueryString($list);
+        $query = parent::createBaseQueryStringParameters($list);
 
         $query['mbid'] = $list->getMBId();
 
@@ -50,7 +50,7 @@ class ListByMBId extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query = $this->createBaseQueryString($this->search);
+        $query = $this->createBaseQueryStringParameters($this->search);
 
         if ($this->search->getResponseType() == 'jsonp') {
             $query['jsoncallback'] = $this->search->getJsonCallBack();

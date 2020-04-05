@@ -7,6 +7,7 @@ use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
 use AcoustId\Submission\Batch;
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Request
@@ -59,7 +60,7 @@ abstract class Request
      * @return Client
      * @throws AcoustIdException
      */
-    public function __get(string $name)
+    public function __get(string $name): Client
     {
         if (empty($this->options['base_uri'])) {
             throw new AcoustIdException('API request url can not be empty.');
@@ -75,7 +76,7 @@ abstract class Request
     /**
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function doRequest()
+    protected function doRequest(): ResponseInterface
     {
         return $this->requestClient->get($this->requestUrl, $this->options);
     }
@@ -84,7 +85,7 @@ abstract class Request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws HttpException
      */
-    public function send()
+    public function send(): ResponseInterface
     {
         try {
             $response = $this->doRequest();
@@ -102,7 +103,7 @@ abstract class Request
      * @throws AcoustIdException
      * @throws InvalidArgumentException
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): self
     {
         if (empty($options)) {
             throw new InvalidArgumentException('Can not use empty $options array');
@@ -132,7 +133,7 @@ abstract class Request
      *
      * @return array
      */
-    protected function createBaseQueryString($instance): array
+    protected function createBaseQueryStringParameters($instance): array
     {
         $query['format'] = $instance->getResponseType();
         $query['client'] = $instance->getClientAPIToken();
@@ -145,7 +146,7 @@ abstract class Request
      *
      * @return $this
      */
-    protected function createFullQueryString(array $query)
+    protected function createFullQueryString(array $query): self
     {
         $queryString = [];
 

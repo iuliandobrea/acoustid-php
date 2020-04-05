@@ -5,6 +5,6 @@ require_once './bootstrap.php';
 
 $list = new \AcoustId\ListByMBId(getenv('API_APPLICATION_TOKEN'));
 $list->setJSONResponseType();
-$result = $list->search('4e0d8649-1f89-44f3-91af-...');
+$result = $list->search('1ecc9c02-fb87-4775-9235-30ba83708ed7');
 
 echo $result->getBody()->getContents();

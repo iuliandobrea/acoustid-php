@@ -13,6 +13,6 @@ $result = $lookUp
         \AcoustId\LookUp::META_RELEASES,
         \AcoustId\LookUp::META_USERMETA,
         \AcoustId\LookUp::META_RECORDINGIDS,
-    ])->lookUp(1, 'test');
+    ])->lookUp(getenv('EXAMPLE_DURATION'), getenv('EXAMPLE_FINGERPRINT'));
 
 echo $result->getBody()->getContents();

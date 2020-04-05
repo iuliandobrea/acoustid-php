@@ -62,7 +62,7 @@ abstract class AcoustId
     /**
      * @return $this
      */
-    public function setJSONResponseType()
+    public function setJSONResponseType(): self
     {
         $this->responseType = 'json';
 
@@ -90,7 +90,7 @@ abstract class AcoustId
     /**
      * @return $this
      */
-    public function setXMLResponseType()
+    public function setXMLResponseType(): self
     {
         $this->responseType = 'xml';
 
@@ -140,7 +140,7 @@ abstract class AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setAPIUrl(string $url)
+    public function setAPIUrl(string $url): self
     {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('Given $url parameter is not a valid url.');

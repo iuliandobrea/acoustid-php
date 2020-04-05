@@ -33,17 +33,16 @@ class AcoustIdTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends AcoustId
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends AcoustId {
         };
     }
 
     /**
      * @covers \AcoustId\AcoustId::setJSONResponseType
      */
-    public function testSetJSONResponseType()
+    public function testSetJSONResponseType(): void
     {
         $this->instance->setJSONResponseType();
         $this->assertEquals('json', $this->instance->getResponseType());
@@ -55,7 +54,7 @@ class AcoustIdTest extends TestCase
      * @covers \AcoustId\AcoustId::getJsonCallBack
      * @covers \AcoustId\AcoustId::getResponseType
      */
-    public function testSetJSONPResponseType()
+    public function testSetJSONPResponseType(): void
     {
         $this->instance->setJSONPResponseType('callback_function');
         $this->assertEquals('jsonp', $this->instance->getResponseType());
@@ -68,7 +67,7 @@ class AcoustIdTest extends TestCase
     /**
      * @covers \AcoustId\AcoustId::setXMLResponseType
      */
-    public function testSetXMLResponseType()
+    public function testSetXMLResponseType(): void
     {
         $this->instance->setXMLResponseType();
         $this->assertEquals('xml', $this->instance->getResponseType());
@@ -77,7 +76,7 @@ class AcoustIdTest extends TestCase
     /**
      * @covers \AcoustId\AcoustId::getClientAPIToken
      */
-    public function testGetClientAPIToken()
+    public function testGetClientAPIToken(): void
     {
         $this->assertEquals(getenv('API_APPLICATION_TOKEN'), $this->instance->getClientAPIToken());
     }
@@ -87,7 +86,7 @@ class AcoustIdTest extends TestCase
      * @covers \AcoustId\AcoustId::setAPIUrl
      * @covers \AcoustId\AcoustId::getApiUrl
      */
-    public function testSetGetApiUrl()
+    public function testSetGetApiUrl(): void
     {
         $this->instance->setAPIUrl('http://some.api.url');
         $this->assertEquals('http://some.api.url', $this->instance->getApiUrl());
@@ -96,7 +95,7 @@ class AcoustIdTest extends TestCase
     /**
      * @throws InvalidArgumentException
      */
-    public function testSetBadAPIUrl()
+    public function testSetBadAPIUrl(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->instance->setAPIUrl('not-url');

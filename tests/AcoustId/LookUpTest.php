@@ -34,10 +34,9 @@ class LookUpTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends LookUp
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends LookUp {
         };
     }
 
@@ -46,7 +45,7 @@ class LookUpTest extends TestCase
      * @throws UnexpectedValueException
      * @covers \AcoustId\LookUp::setMetaData
      */
-    public function testSetBadMetaData()
+    public function testSetBadMetaData(): void
     {
         $this->expectException(\TypeError::class);
         $this->instance->setMetaData(false);

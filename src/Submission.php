@@ -7,6 +7,7 @@ use AcoustId\Exceptions\BadMethodCallException;
 use AcoustId\Exceptions\HttpException;
 use AcoustId\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Submission
@@ -180,7 +181,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setWait(int $wait)
+    public function setWait(int $wait): self
     {
         if (empty($wait)) {
             throw new InvalidArgumentException('Wait parameter can not be empty.');
@@ -201,7 +202,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setDuration(int $duration)
+    public function setDuration(int $duration): self
     {
         if (empty($duration)) {
             throw new InvalidArgumentException('Duration property can not be empty.');
@@ -222,7 +223,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setFingerPrint(string $fingerPrint)
+    public function setFingerPrint(string $fingerPrint): self
     {
         if (empty($fingerPrint)) {
             throw new InvalidArgumentException('FingerPrint can not be empty.');
@@ -239,7 +240,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setBitRate(int $bitrate)
+    public function setBitRate(int $bitrate): self
     {
         if ($bitrate <= 0) {
             throw new InvalidArgumentException('BitRate must be positive integer. ' . $bitrate . ' given.');
@@ -255,7 +256,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setFileFormat(string $fileFormat)
+    public function setFileFormat(string $fileFormat): self
     {
         $this->fileFormat = $fileFormat;
 
@@ -267,7 +268,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setMbTrackId(string $mbTrackId)
+    public function setMbTrackId(string $mbTrackId): self
     {
         $this->mbTrackId = $mbTrackId;
 
@@ -279,7 +280,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setTrackTitle(string $trackTitle)
+    public function setTrackTitle(string $trackTitle): self
     {
         $this->trackTitle = $trackTitle;
 
@@ -291,7 +292,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setTrackArtist(string $trackArtist)
+    public function setTrackArtist(string $trackArtist): self
     {
         $this->trackArtist = $trackArtist;
 
@@ -303,7 +304,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setAlbumTitle(string $albumTitle)
+    public function setAlbumTitle(string $albumTitle): self
     {
         $this->albumTitle = $albumTitle;
 
@@ -315,7 +316,7 @@ class Submission extends AcoustId
      *
      * @return $this
      */
-    public function setAlbumArtist(string $albumArtist)
+    public function setAlbumArtist(string $albumArtist): self
     {
         $this->albumArtist = $albumArtist;
 
@@ -328,7 +329,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setAlbumReleaseYear(int $albumReleaseYear)
+    public function setAlbumReleaseYear(int $albumReleaseYear): self
     {
         if ($albumReleaseYear <= 0) {
             throw new InvalidArgumentException('Album release year must be positive integer. ' . $albumReleaseYear . ' given.');
@@ -345,7 +346,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setTrackNo(int $trackNo)
+    public function setTrackNo(int $trackNo): self
     {
         if ($trackNo <= 0) {
             throw new InvalidArgumentException('Track number must be positive integer. ' . $trackNo . ' given.');
@@ -362,7 +363,7 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setDiscNo(int $discNo)
+    public function setDiscNo(int $discNo): self
     {
         if ($discNo <= 0) {
             throw new InvalidArgumentException('Disk number must be positive integer. ' . $discNo . ' given.');
@@ -491,10 +492,10 @@ class Submission extends AcoustId
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setUserToken(string $userToken)
+    public function setUserToken(string $userToken): self
     {
         if (empty($userToken)) {
-            throw new InvalidArgumentException('User\'s API token can not be empty. We need one for sending submitrequests.');
+            throw new InvalidArgumentException('User\'s API token can not be empty. We need one for sending submit requests.');
         }
 
         $this->userToken = $userToken;

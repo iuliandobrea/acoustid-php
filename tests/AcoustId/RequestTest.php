@@ -31,17 +31,15 @@ class RequestTest extends TestCase
     /**
      * @throws \AcoustId\Exceptions\InvalidArgumentException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var AcoustId $acoustId */
-        $this->acoustId = new class(getenv('API_APPLICATION_TOKEN')) extends AcoustId
-        {
+        $this->acoustId = new class(getenv('API_APPLICATION_TOKEN')) extends AcoustId {
         };
         $this->acoustId->setAPIUrl('https://api.acoustid.org/v2/lookup');
 
         /** @var Request instance */
-        $this->instance = new class($this->acoustId) extends Request
-        {
+        $this->instance = new class($this->acoustId) extends Request {
             function composeQueryParameters(): array
             {
 
@@ -50,9 +48,10 @@ class RequestTest extends TestCase
     }
 
     /**
-     *
+     * @throws \AcoustId\Exceptions\AcoustIdException
+     * @throws \AcoustId\Exceptions\InvalidArgumentException
      */
-    public function testSetOptions()
+    public function testSetOptions(): void
     {
         $this->instance->setOptions(['test' => 123]);
         $this->assertEquals(123, $this->instance->getOptions()['test']);

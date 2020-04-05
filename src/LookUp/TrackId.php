@@ -61,7 +61,7 @@ class TrackId extends LookUp
      *
      * @return $this
      */
-    public function setTrackId($trackId)
+    public function setTrackId(string $trackId): self
     {
         $this->trackId = (string) $trackId;
 

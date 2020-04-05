@@ -40,9 +40,9 @@ class Submit extends Request
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function createBaseQueryString($submission): array
+    protected function createBaseQueryStringParameters($submission): array
     {
-        $query = parent::createBaseQueryString($submission);
+        $query = parent::createBaseQueryStringParameters($submission);
 
         $query['user'] = $submission->getUserToken();
 
@@ -59,10 +59,18 @@ class Submit extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query = $this->createBaseQueryString($this->submission);
+        $query = $this->createBaseQueryStringParameters($this->submission);
 
         $query['duration']    = $this->submission->getDuration();
         $query['fingerprint'] = $this->submission->getFingerPrint();
+
+        if (empty($query['duration'])) {
+            throw new UnexpectedValueException('Duration query parameter is mandatory for submit requests.');
+        }
+
+        if (empty($query['fingerprint'])) {
+            throw new UnexpectedValueException('Fingerprint query parameter is mandatory for submit requests.');
+        }
 
         $query['wait']        = $this->submission->getWait();
         $query['bitrate']     = $this->submission->getBitRate();
@@ -75,14 +83,6 @@ class Submit extends Request
         $query['year']        = $this->submission->getAlbumReleaseYear();
         $query['trackno']     = $this->submission->getTrackNo();
         $query['discno']      = $this->submission->getDiscNo();
-
-        if (empty($query['duration'])) {
-            throw new UnexpectedValueException('Duration query parameter is mandatory for submit requests.');
-        }
-
-        if (empty($query['fingerprint'])) {
-            throw new UnexpectedValueException('Fingerprint query parameter is mandatory for submit requests.');
-        }
 
         # Clear non-used fields for valid API calls
         foreach ($query as $k => $row) {

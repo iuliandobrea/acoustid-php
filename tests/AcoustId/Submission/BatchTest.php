@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Submission;
+namespace Tests\AcoustId\Submission;
 
 use AcoustId\Exceptions\BadMethodCallException;
 use AcoustId\Submission;
@@ -34,10 +34,9 @@ class BatchTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends Batch
-        {
+        $this->instance = new class(getenv('API_APPLICATION_TOKEN')) extends Batch {
         };
     }
 

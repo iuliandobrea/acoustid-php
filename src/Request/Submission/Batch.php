@@ -6,6 +6,7 @@ use AcoustId\Exceptions\InvalidArgumentException;
 use AcoustId\Exceptions\UnexpectedValueException;
 use AcoustId\Request;
 use AcoustId\Submission;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Batch
@@ -33,7 +34,7 @@ class Batch extends Request
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function __construct(\AcoustId\Submission\Batch $batch)
+    public function __construct(Submission\Batch $batch)
     {
         parent::__construct($batch);
 
@@ -50,9 +51,9 @@ class Batch extends Request
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function createBaseQueryString($submission): array
+    protected function createBaseQueryStringParameters($submission): array
     {
-        $query = parent::createBaseQueryString($submission);
+        $query = parent::createBaseQueryStringParameters($submission);
 
         $query['user'] = $submission->getUserToken();
         $query['wait'] = $submission->getWait();
@@ -69,7 +70,7 @@ class Batch extends Request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function doRequest()
+    protected function doRequest(): ResponseInterface
     {
         return $this->requestClient->post($this->requestUrl, ['form_params' => $this->queryParams]);
     }
@@ -81,7 +82,7 @@ class Batch extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query = $this->createBaseQueryString($this->batch);
+        $query = $this->createBaseQueryStringParameters($this->batch);
 
         if (empty($this->batch->getBatch())) {
             throw new InvalidArgumentException('Batch request data can not be empty.');

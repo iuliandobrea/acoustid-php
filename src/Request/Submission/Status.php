@@ -40,7 +40,7 @@ class Status extends Request
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function createBaseQueryString($instance): array
+    protected function createBaseQueryStringParameters($instance): array
     {
         $query['format'] = $instance->getResponseType();
         $query['client'] = $instance->getClientAPIToken();
@@ -54,7 +54,7 @@ class Status extends Request
      */
     protected function composeQueryParameters(): array
     {
-        $query = $this->createBaseQueryString($this->status);
+        $query = $this->createBaseQueryStringParameters($this->status);
 
         $query['id'] = $this->status->getSubmissionId();
 
