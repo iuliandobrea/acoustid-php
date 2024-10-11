@@ -1,5 +1,5 @@
 {
-    "name": "psilocyberunner/acoustid",
+    "name": "iuliandobrea/acoustid-php",
     "description": "PHP wrapper for audio fingerprint search service at acoustid.org",
     "type": "library",
     "keywords": [
@@ -20,7 +20,7 @@
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "ext-curl": "*",
-        "php": "^7.3",
+        "php": ">=7.3",
         "ext-json": "*"
     },
     "require-dev": {
